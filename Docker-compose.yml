@@ -1,0 +1,31 @@
+version: "3"
+services:
+  distributor:
+    build:
+      context: .
+      dockerfile: distributor/api/Dockerfile
+    command: gunicorn  -b 0.0.0.0:5000 main:app --reload
+    environment:
+      - FLASK_APP=main.py
+      - FLASK_DEBUG=1
+      - PYTHONUNBUFFERED=1
+
+    ports:
+      - "5000:5000"
+    volumes:
+    - ./distributor:/root/
+    - ./database:/root/database
+    links:
+      - db
+
+  db:
+    image: postgres
+    ports:
+    - "5432:5432"
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    restart: always
+    volumes:
+    - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
