@@ -23,8 +23,11 @@ services:
     ports:
     - "5432:5432"
     environment:
-      - POSTGRES_HOST_AUTH_METHOD=trust
-    restart: always
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Asdfghjkl-9151290
+      POSTGRES_DB: poll_db
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
     volumes:
     - pgdata:/var/lib/postgresql/data
 volumes:

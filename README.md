@@ -1,4 +1,4 @@
-# High Loaded Poll Service
+# High Loaded Poll Service.
 
 docker exec -it high_load_distributor_1 bash
 
