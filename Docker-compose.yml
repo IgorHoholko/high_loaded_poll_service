@@ -1,9 +1,10 @@
 version: "3"
+
 services:
-  distributor:
+  analyzer:
     build:
       context: .
-      dockerfile: distributor/api/Dockerfile
+      dockerfile: analyzer/api/Dockerfile
     command: gunicorn  -b 0.0.0.0:5000 main:app --reload
     environment:
       - FLASK_APP=main.py
@@ -13,8 +14,23 @@ services:
     ports:
       - "5000:5000"
     volumes:
-    - ./distributor:/root/
+    - ./analyzer:/root/
     - ./database:/root/database
+    links:
+      - db
+
+  distributor:
+    build:
+      context: .
+      dockerfile: distributor/api/Dockerfile
+    environment:
+      - TOKEN=${TOKEN}
+    command: python main.py
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./distributor:/root/
+      - ./database:/root/database
     links:
       - db
 

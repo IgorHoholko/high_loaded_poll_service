@@ -1,0 +1,10 @@
+sqlalchemy
+flask
+gunicorn
+psycopg2-binary
+flask_sqlalchemy
+flask_cors 
+flask_migrate 
+flask_login
+telepot
+requests

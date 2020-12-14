@@ -24,6 +24,12 @@ class users(UserMixin, db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def delete(self):
+        answers = answers.query.filter(answers.question_id == self.id).all()
+        [db.session.delete(i) for i in answers]
+        db.session.delete(self)
+        db.session.commit()
+
 
 class questions(db.Model):
     __tablename__ = 'questions'
@@ -34,9 +40,16 @@ class questions(db.Model):
     def to_dict(self):
         return {c.key: getattr(self, c.key) for c in inspect(self).mapper.column_attrs}
 
+    def delete(self):
+        answers = answers.query.filter(answers.question_id == self.id).all()
+        [db.session.delete(i) for i in answers]
+        db.session.delete(self)
+        db.session.commit()
+
     def add(self):
         db.session.add(self)
         db.session.commit()
+
 
 class answers(db.Model):
     __tablename__ = 'answers'
@@ -46,6 +59,12 @@ class answers(db.Model):
     @staticmethod
     def to_dict(self):
         return {c.key: getattr(self, c.key) for c in inspect(self).mapper.column_attrs}
+
+    def delete(self):
+        users = user_answer.query.filter(user_answer.answer_id == self.id).all()
+        [db.session.delete(i) for i in users]
+        db.session.delete(self)
+        db.session.commit()
 
     def add(self):
         db.session.add(self)
@@ -59,9 +78,32 @@ class user_answer(db.Model):
     @staticmethod
     def to_dict(self):
         return {c.key: getattr(self, c.key) for c in inspect(self).mapper.column_attrs}
-    
+
+    def delete(self):
+        answers = user_answer.query.filter(user_answer.user_id == self.id).all()
+        [db.session.delete(i) for i in answers]
+        db.session.delete(self)
+        db.session.commit()
 
     def add(self):
         db.session.add(self)
         db.session.commit()
 
+
+
+
+
+
+
+
+def delete(self):
+    users = user_answer.query.filter(user_answer.answer_id == self.id).all()
+    [db.session.delete(i) for i in users]
+    db.session.delete(self)
+    db.session.commit()
+
+
+
+def delete(self):
+    db.session.delete(self)
+    db.session.commit()
