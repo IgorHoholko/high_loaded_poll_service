@@ -1,39 +1,55 @@
 version: "3"
 
 services:
-  analyzer:
+  data_distributor:
     build:
       context: .
-      dockerfile: analyzer/api/Dockerfile
-    command: gunicorn  -b 0.0.0.0:5000 main:app --reload
+      dockerfile: data_distributor/api/Dockerfile
+    command: gunicorn  -b 0.0.0.0:6060 main:app --reload
     environment:
       - FLASK_APP=main.py
       - FLASK_DEBUG=1
       - PYTHONUNBUFFERED=1
-
     ports:
-      - "5000:5000"
+      - "6060:6060"
     volumes:
-    - ./analyzer:/root/
-    - ./database:/root/database
+    - ./data_distributor:/root/
+    - ./data_distributor:/root/data_distributor
     links:
       - db
 
-  distributor:
+
+
+  bot:
     build:
       context: .
-      dockerfile: distributor/api/Dockerfile
+      dockerfile: bot/api/Dockerfile
     environment:
       - TOKEN=${TOKEN}
     command: python main.py
     ports:
       - "5001:5001"
     volumes:
-      - ./distributor:/root/
-      - ./database:/root/database
+      - ./bot:/root/
     links:
       - db
-      - analyzer
+      - data_distributor
+
+
+
+  analyzer:
+    build:
+      context: .
+      dockerfile: analyzer/api/Dockerfile
+    command: python main.py
+    ports:
+      - "6061:6061"
+    volumes:
+      - ./analyzer:/root/
+    links:
+      - data_distributor
+
+
 
   db:
     image: postgres

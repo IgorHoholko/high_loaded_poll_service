@@ -25,8 +25,9 @@ class users(UserMixin, db.Model):
         db.session.commit()
 
     def delete(self):
-        answers = answers.query.filter(answers.question_id == self.id).all()
-        [db.session.delete(i) for i in answers]
+        user_answers = user_answer.query.filter(user_answer.user_id == self.id).all()
+        [db.session.delete(i) for i in user_answers]
+        db.session.commit()
         db.session.delete(self)
         db.session.commit()
 
@@ -88,22 +89,3 @@ class user_answer(db.Model):
     def add(self):
         db.session.add(self)
         db.session.commit()
-
-
-
-
-
-
-
-
-def delete(self):
-    users = user_answer.query.filter(user_answer.answer_id == self.id).all()
-    [db.session.delete(i) for i in users]
-    db.session.delete(self)
-    db.session.commit()
-
-
-
-def delete(self):
-    db.session.delete(self)
-    db.session.commit()

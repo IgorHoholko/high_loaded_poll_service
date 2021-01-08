@@ -1,8 +1,8 @@
 --
--- PostgreSQL database dump
+-- PostgreSQL data_distributor dump
 --
 
--- Dumped from database version 13.1 (Debian 13.1-1.pgdg100+1)
+-- Dumped from data_distributor version 13.1 (Debian 13.1-1.pgdg100+1)
 -- Dumped by pg_dump version 13.1 (Debian 13.1-1.pgdg100+1)
 
 SET statement_timeout = 0;
@@ -207,6 +207,6 @@ ALTER TABLE ONLY public.user_answer
 
 
 --
--- PostgreSQL database dump complete
+-- PostgreSQL data_distributor dump complete
 --
 

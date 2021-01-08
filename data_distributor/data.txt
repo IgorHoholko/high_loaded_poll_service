@@ -1,0 +1,1 @@
+{"questions": [{"id": 250, "text": "What is love???", "answers": [{"id": 251, "text": "Oh baby, don't hurt me", "users": 4, "language_code": [{"name": "RU", "users": 3}, {"name": "EN", "users": 1}]}, {"id": 252, "text": "Don't hurt me", "users": 0, "language_code": []}, {"id": 253, "text": "No more", "users": 0, "language_code": []}]}]}

@@ -38,10 +38,27 @@ current_user = m.users.query.get(1)
 
 @app.route('/')
 def hello():
+    return """
+        <style>
+            html,body{
+                margin:0;
+                height:100%;
+                overflow:hidden;
+            }
+            img{
+                min-height:100%;
+                min-width:100%;
+                height:auto;
+                width:auto;
+                position:absolute;
+                top:-100%; bottom:-100%;
+                left:-100%; right:-100%;
+                margin:auto;
+            }
+        </style>
 
-    name = request.args.get("name", "World")
-    return f'<h1> Hello, {escape(name)}! !!<h1>'
-
+        <img src="https://wallpaperaccess.com/full/1623315.jpg">"
+            """
 
 
 
@@ -107,6 +124,18 @@ def new_answer():
     q.add()
     return str(q.id)
 
+
+@app.route('/user_answers', defaults={'start_from': -1})
+@app.route('/user_answers/<start_from>')
+def user_answers(start_from):
+    mm = m.user_answer.query.all() if start_from == -1 else m.user_answer.query.filter(
+        m.user_answer.id > start_from
+    ).all()
+    dm = [i.to_dict(i) for i in mm]
+    return jsonify(dm)
+
+
+
 @app.route('/choose_answer', methods = ['GET', 'POST'])
 def choose_answer():
   if request.method == 'GET':
@@ -118,7 +147,7 @@ def choose_answer():
     return jsonify(dm)
   if request.method == 'POST':
     req = request.get_json(force = True)
-    q = m.user_answer(id=req.get('id'),user_id=current_user.id,answer_id=req.get('answer'))
+    q = m.user_answer(user_id=req.get('user_id'),answer_id=req.get('answer_id'))
     q.add()
     return str(q.id)
 
@@ -130,5 +159,5 @@ def delete_user(user_id):
         [i.delete() for i in u]
     else:
         u = m.users.query.get(user_id)
-        u.delete
+        u.delete()
     return 'ok'
