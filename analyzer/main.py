@@ -34,7 +34,6 @@ def main():
             data_analyzer = json.load(f)
     else:
         data_analyzer = data_template
-    data_analyzer = data_template
 
     data_analyzer = addict.Dict(data_analyzer)
 

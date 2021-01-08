@@ -6,6 +6,6 @@ COPY ./analyzer .
 
 RUN pip install -r requarements.txt
 
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+#ENTRYPOINT ["tail", "-f", "/dev/null"]
 
 
