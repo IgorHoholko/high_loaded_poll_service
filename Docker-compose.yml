@@ -1,11 +1,12 @@
 version: "3"
 
+
 services:
   data_distributor:
     build:
       context: .
       dockerfile: data_distributor/api/Dockerfile
-    command: gunicorn  -b 0.0.0.0:6060 main:app --reload
+    command: gunicorn --workers=5 -b 0.0.0.0:6060 main:app --reload
     environment:
       - FLASK_APP=main.py
       - FLASK_DEBUG=1
@@ -50,6 +51,22 @@ services:
       - data_distributor
 
 
+  web:
+    build:
+      context: .
+      dockerfile: web/api/Dockerfile
+    command: gunicorn --workers=2 -b 0.0.0.0:6070 web.main:app --reload
+    ports:
+      - "6070:6070"
+    environment:
+      - FLASK_APP=main.py
+      - FLASK_DEBUG=1
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./web:/root/web
+      - ./analyzer/data:/root/data
+
+
 
   db:
     image: postgres
@@ -63,5 +80,6 @@ services:
       POSTGRES_PORT: 5432
     volumes:
     - pgdata:/var/lib/postgresql/data
+
 volumes:
   pgdata:
