@@ -33,6 +33,7 @@ services:
       - ./database:/root/database
     links:
       - db
+      - analyzer
 
   db:
     image: postgres
