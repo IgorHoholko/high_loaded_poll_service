@@ -1,2 +1,4 @@
 requests
 addict
+seaborn
+matplotlib

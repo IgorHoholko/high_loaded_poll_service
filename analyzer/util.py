@@ -2,8 +2,9 @@
 from typing import List, Dict, Tuple
 import requests
 from collections import Counter
+import seaborn as sbn
+import matplotlib.pyplot as plt
 
-global URL_DATA_DISTRIBUTOR
 
 
 def parseUserAnswers(user_answers: List[Dict], URL: str) -> Dict:
@@ -81,8 +82,9 @@ def updateAnalyzerDict(adict: Dict, new_adict: Dict) -> Dict:
     print(new_adict)
 
     for question_id in new_adict['questions'].keys():
-        for answer, count in new_adict['questions'][question_id].items():
+        for answer, count in new_adict['questions'][question_id]['answers'].items():
             adict['questions'][question_id]['answers'][answer] += count
+            adict['questions'][question_id]['text'] = new_adict['questions'][question_id]['text']
 
     for question_id in new_adict['questions'].keys():
         for code, count in new_adict['language_codes'][question_id]['codes'].items():
@@ -92,3 +94,39 @@ def updateAnalyzerDict(adict: Dict, new_adict: Dict) -> Dict:
 
     return adict
 
+# "language_codes": {"1": {"codes": {"ru": 39, "en": 3}}}}
+def visualize(adict: Dict, save_path: str):
+    questions = list(adict['questions'].values())
+    question_text = questions[0]['text']
+    answers = questions[0]['answers']
+
+    lan_codes = adict['language_codes'][1]['codes']
+
+    ans_vals = list(answers.values())
+    ans_names = list(answers.keys())
+
+    lan_vals = list(lan_codes.values())
+    lan_names = list(lan_codes.keys())
+    print(lan_vals, lan_names)
+
+    fig, axs = plt.subplots(1, 2, figsize=(14, 6), constrained_layout=True, )
+
+    # Set dark grid
+    sbn.set()
+
+    fig.suptitle(question_text, size=25, )
+
+    ax1 = sbn.barplot(ans_names, ans_vals, palette='Greens_r', ax=axs[0], )
+    for item in ax1.get_xticklabels():
+        item.set_rotation(30)
+        item.set_fontsize(16)
+
+    axs[1].pie(x=lan_vals, autopct="%.1f%%", explode=[0.05] * len(lan_names), labels=lan_names,
+               pctdistance=0.5, textprops={'fontsize': 14})
+
+    # Save figure
+    plt.savefig(save_path, dpi=1000)
+
+    plt.cla()
+    plt.clf()
+    plt.close()
