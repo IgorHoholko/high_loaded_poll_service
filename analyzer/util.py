@@ -96,6 +96,7 @@ def updateAnalyzerDict(adict: Dict, new_adict: Dict) -> Dict:
 
 # "language_codes": {"1": {"codes": {"ru": 39, "en": 3}}}}
 def visualize(adict: Dict, save_path: str):
+
     questions = list(adict['questions'].values())
     question_text = questions[0]['text']
     answers = questions[0]['answers']

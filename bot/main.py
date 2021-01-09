@@ -4,7 +4,7 @@ import os
 import logging
 import time
 import json
-
+import random
 
 URL_NEW_USER = 'http://host.docker.internal:6060/new_user'
 URL_CHOOSE_ANSWER = 'http://host.docker.internal:6060/choose_answer'
@@ -18,6 +18,7 @@ print("Bot is running..", flush=True)
 @bot.message_handler(commands=['start'])
 def start_message(message):
     bot.send_message(message.chat.id, "Yo wassup bro!")
+
 
 
 @bot.message_handler(content_types=['text'])
