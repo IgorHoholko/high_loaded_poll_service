@@ -55,9 +55,22 @@ def hello():
                 left:-100%; right:-100%;
                 margin:auto;
             }
+            .myDiv{
+                position:absolute;
+                
+            }
+            p{font-size: 30; }
+            a{color: white;}
         </style>
 
         <img src="https://wallpaperaccess.com/full/1623315.jpg">"
+        
+        <div class="myDiv">
+           <p><a href="http://localhost:6060/users">Users</a></p>
+           <p><a href="http://localhost:6060/user_answers">User Answers</a></p>
+           <p><a href="http://localhost:6060/questions">Questions</a></p>
+           <p><a href="http://localhost:6060/answers">Answers</a></p>
+        </div>
             """
 
 

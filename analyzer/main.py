@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 from collections import Counter
 import addict
+import logging
 
 from util import parseUserAnswers, updateAnalyzerDict, visualize
 
@@ -26,6 +27,7 @@ data_template = {
 }
 
 def main():
+    print("Analyzer has started..", flush=True)
     if not os.path.exists(DATA_FOLDER_PATH):
         os.mkdir(DATA_FOLDER_PATH)
 
@@ -35,9 +37,13 @@ def main():
     else:
         data_analyzer = data_template
 
+    data_analyzer = data_template
+
     data_analyzer = addict.Dict(data_analyzer)
 
     while True:
+        t0 = time.time()
+
         last_id_processed = data_analyzer['last_id_processed']
         user_answers = requests.get(f"{URL_DATA_DISTRIBUTOR}/user_answers/{last_id_processed}").json()
 
@@ -51,7 +57,9 @@ def main():
             with open(DATA_ANALYZER_PATH, 'w') as f:
                 json.dump(data_analyzer, f)
 
-        time.sleep(SLEEP_TIME)
+        dt = time.time() - t0
+        print(f"Analyzer took {dt} seconds\n", flush=True)
+        time.sleep(SLEEP_TIME - dt)
 
 
 if __name__ == '__main__':

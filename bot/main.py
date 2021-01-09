@@ -1,6 +1,8 @@
 import telebot
 import requests
 import os
+import logging
+import time
 import json
 
 
@@ -11,6 +13,7 @@ TOKEN = os.environ['TOKEN']
 
 bot = telebot.TeleBot(TOKEN)
 
+print("Bot is running..", flush=True)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
@@ -19,6 +22,7 @@ def start_message(message):
 
 @bot.message_handler(content_types=['text'])
 def process(message):
+    t0 = time.time()
     try:
         # user info collection
         user_id = message.__dict__['from_user'].__dict__['id']
@@ -40,6 +44,10 @@ def process(message):
 
         # Add his answer
         requests.post(URL_CHOOSE_ANSWER, json=answer_obj)
+
+        dt = time.time() - t0
+
+        print(f"Bot iteration took {dt} seconds\n", flush=True)
     except:
         pass
 
