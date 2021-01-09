@@ -25,7 +25,15 @@ Migrate database.
 
 
 
+## Overview 
 
+Result analytic you can see at http://localhost:6070/
+
+<img src="docs/web.PNG">
+
+Database distributor is located at http://localhost:6060/
+
+<img src="docs/distributor.PNG">
 
 
 
