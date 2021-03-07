@@ -1,7 +1,6 @@
 # High Loaded Poll Service.
-
 High Loaded Poll Service is a service for realtime poll analysis and visualisation.
-It represents a set of 5 microservices:
+It is represented by set of 5 microservices:
     
 * **Bot** - getting messages from users through Telegram bot; 
 * **Distributor** - Data manipulator;
